@@ -1,0 +1,21 @@
+{
+    "restartable": "rs",
+    "ignore": [
+        "dist/",
+        "**/__tests__/*.ts",
+        "*.test.ts",
+        "*.spec.ts"
+    ],
+    "verbose": false,
+    "watch": [
+      "src"
+    ],
+    "execMap": {
+      "ts": "node -r ts-node/register"
+    },
+    "delay": "80",
+    "env": {
+      "NODE_ENV": "development"
+    },
+    "ext": "js,ts,json,graphql"
+}

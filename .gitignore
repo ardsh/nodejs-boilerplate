@@ -1,0 +1,13 @@
+.DS_Store
+.idea/
+*.log
+node_modules
+.vscode/
+.history
+.npmrc
+.eslintcache
+certs.pem
+.env
+snakeyaml-*
+postgresql-*
+dist
