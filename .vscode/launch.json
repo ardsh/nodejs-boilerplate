@@ -1,0 +1,19 @@
+{
+    "configurations": [{
+        "name": "Attach Node",
+        "port": 9323,
+        "restart": true,
+        "smartStep": true,
+        "request": "attach",
+        "skipFiles": [
+            "<node_internals>/**"
+        ],
+        "type": "pwa-node"
+    }, {
+        "type": "pwa-node",
+        "request": "attach",
+        "port": 9324,
+        "smartStep": true,
+        "name": "Jest: Attach Node",
+    }]
+}
