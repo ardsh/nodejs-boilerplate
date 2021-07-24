@@ -5,6 +5,11 @@ import {
     renderGraphiQL,
     shouldRenderGraphiQL,
 } from 'graphql-helix';
+import {
+    envelop,
+    useAsyncSchema,
+    useExtendContext,
+} from '@envelop/core';
 import { makeSchema } from './utils/makeSchema';
 import env from './env';
 import { log, ServerInstance } from './utils';
@@ -20,6 +25,15 @@ const start = async (PORT: number | string) => {
 
         const schema = makeSchema();
 
+        const getEnveloped = envelop({
+            plugins: [
+                useAsyncSchema(schema),
+                useExtendContext(ctx => ({
+                    getInstance,
+                    log,
+                })),
+            ],
+        });
         app.register(gqlUpload, {
             maxFileSize: 200000000
         });
@@ -27,6 +41,7 @@ const start = async (PORT: number | string) => {
             method: ["GET", "POST"],
             url: "/graphql",
             async handler(req, res) {
+                const { parse, validate, contextFactory, execute, schema } = getEnveloped({ req });
                 const request = {
                     body: req.body,
                     headers: req.headers,
@@ -45,12 +60,11 @@ const start = async (PORT: number | string) => {
                         query,
                         variables,
                         request,
-                        schema: await schema,
-                        contextFactory: () => ({
-                            getInstance,
-                            log,
-                            req,
-                        })
+                        schema,
+                        parse,
+                        validate,
+                        execute,
+                        contextFactory,
                     });
 
                     if (result.type === 'RESPONSE') {

@@ -317,6 +317,18 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
+"@envelop/core@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@envelop/core/-/core-1.0.0.tgz#2052bdce473e37df249bc718985141b47e87e6a5"
+  integrity sha512-RkByYgu77+mUJgDT56iXhd8lQno4/dneXNX0Q1WyidinOi6Xw6GcEzJAbtJfNIIShXYR39kdBn3zC9yJUcNkfg==
+  dependencies:
+    "@envelop/types" "1.0.0"
+
+"@envelop/types@1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@envelop/types/-/types-1.0.0.tgz#704af5b74df951c0559d6443fd2dcf6cb7368172"
+  integrity sha512-L3hHwDcDd5SO5Dck/iJxvbanRa3dx7nUZKelT8x+YcNfEgmAFvtB+y1u48ky43rygVVf7MFaFT2d0nggR1HxRg==
+
 "@eslint/eslintrc@^0.4.3":
   version "0.4.3"
   resolved "https://registry.yarnpkg.com/@eslint/eslintrc/-/eslintrc-0.4.3.tgz#9e42981ef035beb3dd49add17acb96e8ff6f394c"
