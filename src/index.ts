@@ -14,6 +14,7 @@ import { makeSchema } from './utils/makeSchema';
 import env from './env';
 import { log, ServerInstance } from './utils';
 import { gqlUpload } from './utils/gqlUpload';
+import { getPlugins } from './utils/getPlugins';
 
 let instance: ServerInstance;
 
@@ -32,6 +33,7 @@ const start = async (PORT: number | string) => {
                     getInstance,
                     log,
                 })),
+                ...getPlugins(),
             ],
         });
         app.register(gqlUpload, {
