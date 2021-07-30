@@ -2,6 +2,8 @@ import debugFunc from 'debug';
 import { Request } from 'graphql-helix';
 import { ExtendedContext } from '..';
 
+export * from './pubsub';
+
 export const debug = debugFunc('true');
 type LogType = "error" | "warn" | "info";
 
