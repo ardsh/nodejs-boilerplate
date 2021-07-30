@@ -3,9 +3,8 @@ import fp from 'fastify-plugin';
 import { processRequest } from 'graphql-upload';
 
 export const gqlUpload = fp((fastify: FastifyInstance, options, done) => {
-    fastify.addContentTypeParser('multipart', (req, done) => {
+    fastify.addContentTypeParser('multipart', async (req) => {
         req.isMultipart = true;
-        done();
     });
 
     fastify.addHook('preValidation', async function(request, reply) {

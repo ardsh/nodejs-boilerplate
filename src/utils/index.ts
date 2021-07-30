@@ -1,5 +1,6 @@
 import debugFunc from 'debug';
 import { Request } from 'graphql-helix';
+import { ExtendedContext } from '..';
 
 export const debug = debugFunc('true');
 type LogType = "error" | "warn" | "info";
@@ -11,9 +12,7 @@ export interface ServerInstance {
     // reloadSchema: () => Promise<boolean>,
 }
 
-export interface Context {
-    getInstance: () => ServerInstance,
-    log: typeof log,
+export interface Context extends ExtendedContext {
     auth: any,
     req: Request
 }

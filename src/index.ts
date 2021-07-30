@@ -15,10 +15,20 @@ import env from './env';
 import { log, ServerInstance } from './utils';
 import { gqlUpload } from './utils/gqlUpload';
 import { getPlugins } from './utils/getPlugins';
+import { Plugin } from '@envelop/core';
+
 
 let instance: ServerInstance;
 
 export const getInstance = () => instance;
+
+const extendedContext = useExtendContext(ctx => ({
+    getInstance,
+    log,
+}));
+
+type PluginContext<T> = T extends Plugin<infer U> ? U : T;
+export type ExtendedContext = PluginContext<typeof extendedContext>;
 
 const start = async (PORT: number | string) => {
     try {
@@ -29,10 +39,7 @@ const start = async (PORT: number | string) => {
         const getEnveloped = envelop({
             plugins: [
                 useAsyncSchema(schema),
-                useExtendContext(ctx => ({
-                    getInstance,
-                    log,
-                })),
+                extendedContext,
                 ...getPlugins(),
             ],
         });
@@ -43,7 +50,7 @@ const start = async (PORT: number | string) => {
             method: ["GET", "POST"],
             url: "/graphql",
             async handler(req, res) {
-                const { parse, validate, contextFactory, execute, schema } = getEnveloped({ req });
+                const { parse, validate, contextFactory, execute, schema, subscribe } = getEnveloped({ req });
                 const request = {
                     body: req.body,
                     headers: req.headers,
@@ -66,6 +73,7 @@ const start = async (PORT: number | string) => {
                         parse,
                         validate,
                         execute,
+                        subscribe,
                         contextFactory,
                     });
 
