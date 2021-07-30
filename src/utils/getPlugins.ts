@@ -5,6 +5,7 @@ import { useValidationCache } from "@envelop/validation-cache";
 import { useDisableIntrospection } from "@envelop/disable-introspection";
 
 import { getPersistedPlugin } from "./persistedQueries";
+import { getLiveQueryPlugin } from "./liveQuery";
 import env from "../env";
 
 export function getPlugins() {
@@ -28,6 +29,7 @@ function getProductionPlugins() {
 function getGeneralPlugins() {
     return [
         getPersistedPlugin(),
+        getLiveQueryPlugin(),
     ]
 }
 

@@ -16,6 +16,7 @@ import { log, ServerInstance } from './utils';
 import { gqlUpload } from './utils/gqlUpload';
 import { getPlugins } from './utils/getPlugins';
 import { Plugin } from '@envelop/core';
+import { liveQueryStore } from './utils/liveQuery';
 
 
 let instance: ServerInstance;
@@ -23,6 +24,7 @@ let instance: ServerInstance;
 export const getInstance = () => instance;
 
 const extendedContext = useExtendContext(ctx => ({
+    liveQueryStore,
     getInstance,
     log,
 }));

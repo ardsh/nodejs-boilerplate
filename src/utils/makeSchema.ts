@@ -3,6 +3,7 @@ import glob from 'glob';
 import { mergeTypeDefs, mergeResolvers } from '@graphql-tools/merge';
 import { IExecutableSchemaDefinition, makeExecutableSchema } from '@graphql-tools/schema';
 import { loadFiles } from '@graphql-tools/load-files';
+import { GraphQLLiveDirectiveSDL } from '@envelop/live-query';
 
 import { Context } from '.';
 import { getResolvers } from '../schema';
@@ -18,7 +19,10 @@ async function getSchemaExtensions(): Promise<IExecutableSchemaDefinition<Contex
 
     const typesArray = await loadFiles(path.join(__dirname, '..', '**', '*.graphql'));
 
-    const typeDefs = mergeTypeDefs(typesArray);
+    const typeDefs = mergeTypeDefs([
+        ...typesArray,
+        GraphQLLiveDirectiveSDL,
+    ]);
 
     return {
         typeDefs,
