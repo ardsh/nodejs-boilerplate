@@ -1,6 +1,7 @@
 import debugFunc from 'debug';
 import { Request } from 'graphql-helix';
 import { ExtendedContext } from '..';
+import { UserType } from './authPlugin';
 
 export const debug = debugFunc('true');
 type LogType = "error" | "warn" | "info";
@@ -13,6 +14,8 @@ export interface ServerInstance {
 }
 
 export interface Context extends ExtendedContext {
-    auth: any,
+    [key: string]: unknown,
+    validateUser: () => Promise<void>
+    auth: UserType,
     req: Request
 }

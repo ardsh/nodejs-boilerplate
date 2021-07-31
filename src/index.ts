@@ -46,6 +46,7 @@ const start = async (PORT: number | string) => {
         app.register(gqlUpload, {
             maxFileSize: 200000000
         });
+
         app.route({
             method: ["GET", "POST"],
             url: "/graphql",
@@ -131,8 +132,11 @@ const start = async (PORT: number | string) => {
                 }
             }
         });
-    
-        app.listen(PORT, "0.0.0.0", () => {
+        app.listen(PORT, "0.0.0.0", (err) => {
+            if (err) {
+                console.error(err);
+                process.exit(1);
+            }
             console.log(`GraphQL server is running on port ${PORT}.`);
         });
         return instance = {
