@@ -18,7 +18,9 @@ import { getPlugins } from './utils/getPlugins';
 import { Plugin } from '@envelop/core';
 
 
-let instance: ServerInstance;
+const instance: ServerInstance = {
+    cleanup: () => Promise.reject('Not started'),
+};
 
 export const getInstance = () => instance;
 
@@ -30,19 +32,25 @@ const extendedContext = useExtendContext(ctx => ({
 type PluginContext<T> = T extends Plugin<infer U> ? U : T;
 export type ExtendedContext = PluginContext<typeof extendedContext>;
 
-const start = async (PORT: number | string) => {
-    try {
-        const app = fastify();
-
-        const schema = makeSchema();
-
-        const getEnveloped = envelop({
+export const getEnvelopedSchema = () => {
+    const schema = makeSchema();
+    return {
+        getEnveloped: envelop({
             plugins: [
                 useAsyncSchema(schema),
                 extendedContext,
                 ...getPlugins(),
             ],
-        });
+        }),
+        schema,
+    }
+}
+
+export const start = async (PORT: number | string) => {
+    try {
+        const app = fastify();
+        const { getEnveloped } = getEnvelopedSchema();
+        
         app.register(gqlUpload, {
             maxFileSize: 200000000
         });
@@ -139,16 +147,15 @@ const start = async (PORT: number | string) => {
             }
             console.log(`GraphQL server is running on port ${PORT}.`);
         });
-        return instance = {
-            cleanup: async () =>{
-                try {
-                    await app.close();
-                    return true;
-                } catch (e) {
-                    return e;
-                }
-            },
-        }
+        instance.cleanup = async () => {
+            try {
+                await app.close();
+                return true;
+            } catch (e) {
+                return false;
+            }
+        };
+        return instance;
     } catch (err) {
         log(err, "error");
         process.exit(1);

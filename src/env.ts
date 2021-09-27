@@ -5,4 +5,5 @@ export default {
     APP_SECRET: process.env.APP_SECRET || 'secret-key',
 
     NODE_ENV: process.env.NODE_ENV || 'development',
+    IS_DEV: !process.env.NODE_ENV || process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test",
 } as const;

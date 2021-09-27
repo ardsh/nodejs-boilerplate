@@ -13,8 +13,7 @@ export interface ServerInstance {
     // reloadSchema: () => Promise<boolean>,
 }
 
-export interface Context extends ExtendedContext {
-    [key: string]: unknown,
+export interface Context extends ExtendedContext, Record<string | symbol | number, unknown> {
     validateUser: () => Promise<void>
     auth: UserType,
     req: Request

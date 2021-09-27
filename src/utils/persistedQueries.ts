@@ -12,7 +12,7 @@ const data = Object.keys(queries).reduce((acc, key) => {
 export function getPersistedPlugin() {
     return usePersistedOperations({
         // Disable non-persisted queries only in non-development
-        onlyPersistedOperations: true,//env.NODE_ENV !== "development",
+        onlyPersistedOperations: !env.IS_DEV,
         store: {
             canHandle: (key) => {
                 const matches = key.match(/\s(\w+)/);

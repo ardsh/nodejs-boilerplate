@@ -31,7 +31,9 @@ const resolveUserFn: ResolveUserFn<UserType, Context> = async (ctx) => {
     // Common practice is to use a JWT token here, validate it, and use the payload as-is, or fetch the user from an external services.
     // Make sure to either return `null` or the user object.
 
-    const auth = ctx.req.headers['authorization'];
+    const auth = typeof ctx.req.headers.get === "function"
+        ? ctx.req.headers.get("authorization")
+        : ctx.req.headers['authorization'];
     return validateToken(auth).catch(err => {
         console.error('Failed to validate token:', err);
         return null;
